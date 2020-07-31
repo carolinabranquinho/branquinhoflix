@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import Home from "./pages/Home";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import CadastroVideo from "./pages/cadastro/video";
-import CadastroCategoria from "./pages/cadastro/categoria";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import CadastroVideo from './pages/cadastro/video';
+import CadastroCategoria from './pages/cadastro/categoria';
 
-//desafio colocar joguinho
+// desafio colocar joguinho
 const Page404 = () => <div>Página 404</div>;
 
 ReactDOM.render(
@@ -18,5 +18,5 @@ ReactDOM.render(
       <Route component={Page404} />
     </Switch>
   </Router>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
