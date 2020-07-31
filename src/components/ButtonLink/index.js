@@ -1,11 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
 
-function ButtonLink(props) {
+const Button = styled.button`
+  color: var(--white);
+  border: 1px solid var(--white);
+  box-sizing: border-box;
+  cursor: pointer;
+  padding: 16px 24px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  outline: none;
+  border-radius: 5px;
+  text-decoration: none;
+  display: inline-block;
+  transition: opacity 0.3s;
+  &:hover,
+  &:focus {
+    opacity: 0.5;
+  }
+`;
+
+function ButtonLink({ className, href, children }) {
   return (
-    <Link className={props.className} to={props.to}>
-      {props.children}
-    </Link>
+    <Button as="a" className={className} href={href}>
+      {children}
+    </Button>
   );
 }
 

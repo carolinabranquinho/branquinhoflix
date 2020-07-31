@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const FormFieldWrapper = styled.div`
   position: relative;
@@ -50,16 +50,34 @@ const Input = styled.input`
   resize: none;
   border-radius: 4px;
   transition: border-color 0.3s;
+
+  &:focus {
+    border-bottom-color: var(--primary);
+  }
+
+  &:focus:not([type='color']) + span {
+    transform: scale(0.6) translateY(-10px);
+  }
+
+  /* pq não ta dando certo com essa sintaxe e arrumar o botão de cadastro */
+  ${({ hasValue }) =>
+    hasValue &&
+    css`
+      &:focus:not([type='color']) + span {
+        transform: scale(0.6) translateY(-10px);
+      }
+    `}
 `;
 
 function FormField({ type, name, value, onChange, label }) {
   const fieldId = `id_${name}`;
   const isTextArea = type === 'textarea';
   const tag = isTextArea ? 'textarea' : 'input';
+  const hasValue = Boolean(value.length);
+
   return (
     <FormFieldWrapper>
       <Label htmlFor={fieldId}>
-        <Label.Text>{label}</Label.Text>
         <Input
           as={tag}
           name={name}
@@ -67,6 +85,7 @@ function FormField({ type, name, value, onChange, label }) {
           onChange={onChange}
           value={value}
         />
+        <Label.Text>{label}</Label.Text>
       </Label>
     </FormFieldWrapper>
   );

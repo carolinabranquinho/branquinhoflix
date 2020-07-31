@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Logo from "../../assets/images/logobranquinhoflix.png";
-import "./menu.css";
-import ButtonLink from "../ButtonLink";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/images/logobranquinhoflix.png';
+import './menu.css';
+import ButtonLink from '../ButtonLink';
 
 function Menu() {
   return (
@@ -11,7 +11,7 @@ function Menu() {
         <img className="Logo" src={Logo} alt="BranquinhoFlix logo" />
       </Link>
 
-      <ButtonLink as={Link} className="ButtonLink" to="/cadastro/video">
+      <ButtonLink className="ButtonLink" href="/cadastro/video">
         Novo Vídeo
       </ButtonLink>
     </nav>

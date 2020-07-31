@@ -1,0 +1,10 @@
+{
+  "categorias": [
+    {
+      "id": "1",
+      "nome": "Fronts",
+      "descrição": "muito bem descrito",
+      "cor": "#000"
+    }
+  ]
+}
