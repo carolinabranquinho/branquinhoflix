@@ -4,31 +4,23 @@ import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import '../../../components/Menu/menu.css';
 import ButtonLink from '../../../components/ButtonLink';
+import useForm from '../../../hooks/useForm';
 
 function CadastroCategoria() {
   const valores = {
-    nome: '',
+    titulo: '',
     descricao: '',
     color: '',
   };
 
-  const [values, setValues] = useState(valores);
+  const { handleChange, values, clearForm } = useForm(valores);
+
   const [categorias, setCategorias] = useState([]);
 
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor,
-    });
-  }
-
-  function handleChange(event) {
-    const { value } = event.target;
-    setValue(event.target.getAttribute('name'), value);
-  }
-
   useEffect(() => {
-    const URL = 'http://localhost:8080/categorias';
+    const URL = window.location.hostname.includes('localhost')
+      ? 'http://localhost:8080/categorias'
+      : 'https://branquinhoflix.herokuapp.com/categorias';
     fetch(URL).then(async (response) => {
       const resposta = await response.json();
       setCategorias([...resposta]);
@@ -39,21 +31,21 @@ function CadastroCategoria() {
     <PageDefault>
       <h1>
         Cadastrar Categoria:
-        {values.nome}
+        {values.titulo}
       </h1>
 
       <form
         onSubmit={function handleSubmit(event) {
           event.preventDefault();
           setCategorias([...categorias, values]);
-          setValues(valores);
+          clearForm();
         }}
       >
         <FormField
           label="Nome da Categoria: "
           type="text"
-          name="nome"
-          value={values.nome}
+          name="titulo"
+          value={values.titulo}
           onChange={handleChange}
         />
 
@@ -79,7 +71,7 @@ function CadastroCategoria() {
 
       <ul>
         {categorias.map((value, key) => (
-          <li key={key}>{value.nome}</li>
+          <li key={key}>{value.titulo}</li>
         ))}
       </ul>
       <Link to="/">Voltar para Home</Link>

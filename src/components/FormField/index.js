@@ -55,37 +55,57 @@ const Input = styled.input`
     border-bottom-color: var(--primary);
   }
 
-  &:focus:not([type='color']) + span {
+  &:focus:not([type='color']) + ${Label.Text} {
     transform: scale(0.6) translateY(-10px);
   }
 
-  /* pq não ta dando certo com essa sintaxe e arrumar o botão de cadastro */
-  ${({ hasValue }) =>
-    hasValue &&
-    css`
-      &:focus:not([type='color']) + span {
-        transform: scale(0.6) translateY(-10px);
-      }
-    `}
+  ${({ value }) => {
+    const hasValue = value.length > 0;
+    return (
+      hasValue &&
+      css`
+        &:not([type='color']) + ${Label.Text} {
+          transform: scale(0.6) translateY(-10px);
+        }
+      `
+    );
+  }}
 `;
 
-function FormField({ type, name, value, onChange, label }) {
+function FormField({ type, name, value, onChange, label, suggestions }) {
   const fieldId = `id_${name}`;
   const isTextArea = type === 'textarea';
   const tag = isTextArea ? 'textarea' : 'input';
   const hasValue = Boolean(value.length);
+  const hasSuggestions = Boolean(suggestions.length);
 
   return (
     <FormFieldWrapper>
       <Label htmlFor={fieldId}>
         <Input
           as={tag}
-          name={name}
+          id={fieldId}
           type={type}
-          onChange={onChange}
           value={value}
+          name={name}
+          hasValue={hasValue}
+          onChange={onChange}
+          autoComplete={hasSuggestions ? 'off' : 'on'}
+          list={hasSuggestions ? `suggestionFor_${fieldId}` : undefined}
         />
         <Label.Text>{label}</Label.Text>
+        {hasSuggestions && (
+          <datalist id={`suggestionFor_${fieldId}`}>
+            {suggestions.map((suggestion) => (
+              <option
+                value={suggestion}
+                key={`suggestionFor_${fieldId}_option${suggestion}`}
+              >
+                {suggestion}
+              </option>
+            ))}
+          </datalist>
+        )}
       </Label>
     </FormFieldWrapper>
   );
@@ -95,6 +115,7 @@ FormField.defaultProps = {
   type: 'text',
   value: '',
   onChange: () => {},
+  suggestions: [],
 };
 
 FormField.propTypes = {
@@ -103,6 +124,7 @@ FormField.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func,
+  suggestions: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default FormField;
